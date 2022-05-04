@@ -1,0 +1,39 @@
+﻿@model WebApp.Models.Category
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<a asp-action="index" class="btn btn-secondary mb-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="35px" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd" />
+    </svg>
+</a>
+<form method="post" class="col-12 col-md-6 col-xl-4 mx-auto">
+    @*action will automotically take the methode with similar name*@
+    <div class="bg-light p-3 mt-4 rounded-2">
+        <div class="row pb-2">
+            <h2 class="text-primary">Edit Category</h2>
+            <hr />
+        </div>
+        @*<div asp-validation-summary=All class="text-danger" style="background-color:lightpink"></div>*@
+        <div class="mb-3">
+            <label asp-for=Name></label>
+            <input asp-for=Name class="form-control" />
+            <span asp-validation-for=Name class="text-danger" style="background-color:lightpink"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DisplayOrder"></label>
+            <input asp-for="DisplayOrder" class="form-control" />
+            <span asp-validation-for=DisplayOrder class="text-danger" style="background-color:lightpink"></span>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary bg-primary text-white">Update</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        <partial name=_ValidationScriptsPartial />
+    }
+}
