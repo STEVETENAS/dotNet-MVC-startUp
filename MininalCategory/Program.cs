@@ -24,7 +24,7 @@ async Task<List<Category>> GetAllCategories(MinimalContext context) => await con
 async Task<List<Category>> GetCategories(MinimalContext context) => await context.Categories.Where(x => x.DeletedAt == null).ToListAsync();
 async Task<List<Category>> GetDeletedCategories(MinimalContext context) => await context.Categories.Where(x => x.DeletedAt != null).ToListAsync();
 
-app.MapGet("/category", async (MinimalContext context) => await context.Categories.Where(x => x.DeletedAt == null).ToListAsync());
+app.MapGet("/category", async (MinimalContext context) => await GetCategories(context));
 
 app.MapGet("/category/{id}", async (MinimalContext context, Guid id) 
     => await context.Categories.FindAsync(id) is Category category ? Results.Ok(category) : Results.NotFound("Unknown ID"));
@@ -39,7 +39,7 @@ app.MapPost("/category", async (MinimalContext context, Category category) =>
 app.MapPut("/category/{id}", async (MinimalContext context, Category category, Guid id) =>
 {
     var cat = await context.Categories.FindAsync(id);
-    if (cat != null) Results.NotFound("Unknown ID");
+    if (cat == null) Results.NotFound("Unknown ID");
 
     cat.Name = category.Name ?? cat.Name;
     cat.DisplayOrder = category.DisplayOrder !=0 ? category.DisplayOrder : cat.DisplayOrder;
@@ -50,9 +50,10 @@ app.MapPut("/category/{id}", async (MinimalContext context, Category category, G
 app.MapDelete("/category/{id}", async (MinimalContext context, Guid id) =>
 {
     var category = await context.Categories.FindAsync(id);
-    if (category != null) Results.NotFound("Unknown ID");
+    if (category == null) Results.NotFound("Unknown ID");
 
-    Category cat = new(category,DateTime.UtcNow);
+    category = new Category(category);
+    category.Deleted();
     //context.Categories.Remove(category); 
     await context.SaveChangesAsync();
     return Results.Ok(category);

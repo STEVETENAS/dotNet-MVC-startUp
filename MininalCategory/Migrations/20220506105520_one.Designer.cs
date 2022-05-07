@@ -12,8 +12,8 @@ using MininalCategory.Data;
 namespace MininalCategory.Migrations
 {
     [DbContext(typeof(MinimalContext))]
-    [Migration("20220506074012_InitialCreated")]
-    partial class InitialCreated
+    [Migration("20220506105520_one")]
+    partial class one
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

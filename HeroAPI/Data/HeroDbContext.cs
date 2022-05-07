@@ -8,7 +8,7 @@ namespace HeroAPI.Data
         { }
 
         //table name and representation of data in DB
-        public DbSet<Category> categories { get; set; }
+        public DbSet<Category> categories => Set<Category>();
 
     }
 }
